@@ -57,7 +57,7 @@ DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)입니
 
 ### 방법 1: 실행 파일(EXE) 사용 (가장 쉬움, 윈도우 추천)
 Python이나 기타 도구 설치가 필요 없습니다.
-1. [Releases 페이지](https://github.com/2geonhyup/dart-mcp/releases)에서 최신 `dart-mcp.exe`를 다운로드합니다.
+1. [Releases 페이지](https://github.com/acidburn44/dart-mcp/releases)에서 최신 `dart-mcp.exe`를 다운로드합니다.
 2. 다운로드한 파일을 원하는 폴더(예: `C:\Util\dart-mcp.exe`)에 저장합니다.
 3. **MCP 클라이언트 설정 (앱별 상세 가이드)**
 
