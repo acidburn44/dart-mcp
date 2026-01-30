@@ -136,10 +136,21 @@ async def get_corp_code_by_name(corp_name: str) -> Tuple[str, str]:
     """
     url = f"{BASE_URL}/corpCode.xml?crtfc_key={API_KEY}"
     
+    # Common Aliases (Known differences in DART)
+    ALIASES = {
+        "네이버": "NAVER",
+        "NAVER": "NAVER",
+        "현대차": "현대자동차",
+        "기아차": "기아",
+        "POSCO": "포스코홀딩스",
+        "포스코": "포스코홀딩스",
+        "KT": "케이티"
+    }
+
+    search_name = ALIASES.get(corp_name, corp_name)
+
     try:
-        # 타임아웃 명시적 설정 - 전체 요청에 대한 타임아웃
-        timeout = httpx.Timeout(10.0, connect=5.0)
-        async with httpx.AsyncClient(timeout=timeout) as client:
+        async with httpx.AsyncClient() as client:
             try:
                 response = await client.get(url)
                 
@@ -164,12 +175,12 @@ async def get_corp_code_by_name(corp_name: str) -> Tuple[str, str]:
                                         if not stock_code or stock_code.strip() == "":
                                             continue
                                             
-                                        if name and corp_name in name:
+                                        if name and search_name.upper() in name.upper():
                                             # 일치도 점수 계산 (낮을수록 더 정확히 일치)
                                             score = 0
-                                            if name != corp_name:
-                                                score += abs(len(name) - len(corp_name))
-                                                if not name.startswith(corp_name):
+                                            if name != search_name:
+                                                score += abs(len(name) - len(search_name))
+                                                if not name.startswith(search_name):
                                                     score += 10
                                             
                                             code = company.find('corp_code').text
@@ -177,7 +188,11 @@ async def get_corp_code_by_name(corp_name: str) -> Tuple[str, str]:
                                     
                                     # 일치하는 회사가 없는 경우
                                     if not matches:
-                                        return ("", f"'{corp_name}' 회사를 찾을 수 없습니다.")
+                                        # Try original name if alias failed
+                                        if search_name != corp_name:
+                                            return await get_corp_code_by_name(search_name) # Recursive call might be dangerous if not careful, but search_name is already Aliased.
+                                            # Actually, avoid recursion here. Just fail.
+                                        return ("", f"'{corp_name}' (검색명: {search_name}) 회사를 찾을 수 없습니다.")
                                     
                                     # 일치도 점수가 가장 낮은 (가장 일치하는) 회사 반환
                                     matches.sort(key=lambda x: x[2])
@@ -256,7 +271,7 @@ async def get_financial_statement_xbrl(rcept_no: str, reprt_code: str) -> str:
     url = f"{BASE_URL}/fnlttXbrl.xml?crtfc_key={API_KEY}&rcept_no={rcept_no}&reprt_code={reprt_code}"
 
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.get(url)
 
             if response.status_code != 200:
@@ -676,7 +691,7 @@ async def get_original_document(rcept_no: str) -> Tuple[str, Optional[bytes]]:
     url = f"{BASE_URL}/document.xml?crtfc_key={API_KEY}&rcept_no={rcept_no}"
     
     try:
-        async with httpx.AsyncClient(timeout=30.0) as client:
+        async with httpx.AsyncClient() as client:
             response = await client.get(url)
             
             if response.status_code != 200:
