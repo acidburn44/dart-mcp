@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dart-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)"
 readme = "README.md"
 requires-python = ">=3.10"
