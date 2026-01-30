@@ -1,8 +1,6 @@
-# DART-MCP: 재무 분석을 위한 Claude 확장 프로그램
+# DART-MCP: 재무 분석을 위한 MCP 확장 프로그램
 
-DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)입니다. Claude를 이용하여 상장 기업의 재무 데이터를 쉽게 분석하고 시각화할 수 있습니다.
-
-상단에 더 상세하고 쉬운 가이드는 [https://dart-mcp.vercel.app/](https://dart-mcp.vercel.app/) 에서 보는 걸 추가드립니다.
+DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)입니다. VS Code, Claude Desktop, Cursor 등을 이용하여 상장 기업의 재무 데이터를 쉽게 분석하고 시각화할 수 있습니다.
 
 ## 가능한 것 / 불가능한 것
 
@@ -10,21 +8,20 @@ DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)입니
 - 주요 재무 분석
 - 상세 재무 분석
 - 기업의 사업부별 매출
-- 클로드를 이용한 시각화
+- AI Tool을 이용한 시각화
 - 재무지표를 활용한 벨류에이션 (DCF 등)
 
 ### 불가능한 것 (X)
 - 주가 및 시가총액 제공
 - 해외기업 분석
-- 클로드 무료 사용량 이상의 사용
-- 한 채팅창에서 다량 사용 (잘 안되면 채팅창 새로 만들어서 쓰기)
+- AI Tool 무료 사용량 이상의 사용
 - 100% 정확한 정보
 
 **제공하는 투자 정보는 실제와 다를 수 있고 투자 책임은 투자한 본인에게 있습니다.**
 
 ## 사용 예시
 
-### 재무 데이터 분석 및 시각화
+### 재무 데이터 분석
 ```
 파마리서치의 2023, 2024년 매출액, 영업이익 추이 분기별로 그래프로 보여줘. 그리고 매출비중이 어떻게 되는지 알려줘. 영업이익이나 매출액 변동 이유도 분석해줘.
 ```
@@ -48,56 +45,82 @@ DART API를 활용한 재무 분석 MCP(Model-assisted Capability Package)입니
 4. 이용정보 입력 후 신청
 5. [인증키 신청/관리] - [오픈API 이용현황] 메뉴에서 발급된 인증키 확인
 
-### Claude 데스크톱 앱 설치
-1. [Claude 데스크톱 앱](https://claude.ai/desktop) 다운로드 
-2. 계정 가입 및 로그인
+### MCP를 지원하는 Client 앱 설치
+1. [Claude 데스크톱 앱](https://claude.ai/desktop) 다운로드
+2. [VS Code](https://code.visualstudio.com/) 다운로드
+3. [Cursor](https://cursor.sh/) 다운로드
+4. 계정 가입 및 로그인
 
 ## 설치 방법
 
-### 1. GitHub에서 프로젝트 다운로드
-GitHub 페이지에서 zip 파일을 다운로드합니다.
-https://github.com/2geonhyup/dart-mcp
+사용 환경에 따라 가장 편한 방법을 선택하세요.
 
-### 2. ZIP 파일 압축 해제 및 폴더 위치 확인
-1) 다운로드한 ZIP 파일의 압축을 해제합니다.
-2) 압축 해제 폴더가 **Downloads**에 있는지 확인합니다. **다른 위치에 있다면 Downloads 위치로 옮겨주세요.**
+### 방법 1: 실행 파일(EXE) 사용 (가장 쉬움, 윈도우 추천)
+Python이나 기타 도구 설치가 필요 없습니다.
+1. [Releases 페이지](https://github.com/2geonhyup/dart-mcp/releases)에서 최신 `dart-mcp.exe`를 다운로드합니다.
+2. 다운로드한 파일을 원하는 폴더(예: `C:\Util\dart-mcp.exe`)에 저장합니다.
+3. **MCP 클라이언트 설정 (앱별 상세 가이드)**
 
-### 3. 폴더 이름 변경
-압축 해제한 폴더 dart-mcp-main 이름을 **dart-mcp로 반드시 바꿔주세요.** (처음부터 dart-mcp라면 바꾸지 마세요)
+   #### A. Claude Desktop
+   1. **설정 > 개발자 > 설정 편집** 메뉴를 클릭합니다. (`claude_desktop_config.json` 파일이 열립니다)
+   2. 아래 **[공통 설정 코드]**를 `mcpServers` 항목 안에 추가합니다.
 
-### 4. Claude 앱 접속 및 설정 접근
-1) 설치한 Claude 데스크톱 앱을 실행합니다.
-2) 맥 사용자: **Claude > 설정 > 개발자 > 설정 편집** 클릭
-   윈도우 사용자: **설정 > 개발자 > 설정 편집** 클릭
+   #### B. VS Code
+   VS Code에서 MCP를 사용하려면 호환되는 확장 프로그램(예: Cline 등)이 필요할 수 있습니다.
+   1. `Ctrl` + `Shift` + `P` (맥은 `Cmd` + `Shift` + `P`)를 눌러 명령어 창을 엽니다.
+   2. **"Preferences: Open User Settings (JSON)"** (기본 설정: 사용자 설정 열기 (JSON))을 입력하고 선택합니다.
+   3. 파일의 가장 마지막 중괄호 `}` 바로 위에 쉼표(`,`)를 찍고, **[공통 설정 코드]**를 추가합니다.
+      (※ 이미 `mcpServers` 항목이 있다면 그 안에 내용만 추가하세요)
 
-### 5. 설정 파일 열기
-**상단 claude_desktop_config 파일**을 텍스트 편집기로 엽니다.
+   #### [공통 설정 코드]
+   ```json
+   "mcpServers": {
+     "dart-mcp": {
+       "command": "C:\\Util\\dart-mcp.exe",
+       "env": {
+         "DART_API_KEY": "발급받은_API_키_입력"
+       }
+     }
+   }
+   ```
+4. 설정 파일을 저장하고 Client 앱을 재시작합니다.
 
-### 6. 설정 코드 입력
-1. 먼저 알맞은 키와 이름을 입력하세요
-   - DART API 키: 발급받은 API 키 입력
-   - 컴퓨터 이름: 컴퓨터 계정 이름 입력 (Mac에서는 Finder 홈 폴더, Windows에서는 C:\사용자 폴더명)
+### 방법 2: PyPI로 설치 (Python 사용자)
+Python이 설치된 환경이라면 `pip`로 쉽게 설치할 수 있습니다.
+1. 터미널에서 설치:
+   ```bash
+   pip install dart-mcp
+   ```
+2. **MCP 클라이언트 설정 추가**
+   - 설정 파일을 여는 방법은 **[방법 1]**의 **A(Claude Desktop)** 또는 **B(VS Code)** 설명을 참고하세요.
+   - 단, 설정 코드는 아래 내용을 사용해야 합니다 (`command`가 다릅니다).
 
-2. 다음 코드를 이용하여 설정 파일에 입력
-```json
-{
-  "mcpServers": {
-    "dart-mcp": {
-      "command": "uv",
-      "args": ["--directory", "/Users/{컴퓨터이름}/Downloads/dart-mcp", "run", "dart.py"],
-      "env": {
-        "DART_API_KEY": "{DART_API_KEY}"
-      }
-    }
-  }
-}
-```
+   ```json
+   "mcpServers": {
+     "dart-mcp": {
+       "command": "dart-mcp",
+       "env": {
+         "DART_API_KEY": "발급받은_API_키_입력"
+       }
+     }
+   }
+   ```
 
-### 7. Claude 재시작 및 사용 시작
-**설정 파일을 저장하고 Claude 앱을 닫은 후 다시 시작**합니다.
-이제 Claude에게 질문하면 DART API를 호출하여 답변을 제공합니다.
+### 방법 3: 소스 코드 직접 실행 (개발용)
+직접 코드를 수정하거나 기여하고 싶은 경우 사용합니다. (`uv` 또는 `python` 필요)
+1. 저장소를 클론하거나 다운로드합니다.
+2. 프로젝트 폴더로 이동하여 의존성을 설치하고 실행합니다.
+   ```json
+   "dart-mcp": {
+     "command": "uv",
+     "args": ["--directory", "/Users/{사용자이름}/Downloads/dart-mcp", "run", "dart.py"],
+     "env": {
+       "DART_API_KEY": "{DART_API_KEY}"
+     }
+   }
+   ```
 
 ## 사용시 주의사항
 - 기업명은 공식적으로 상장된 이름으로 제공해야 합니다.
 - 코스피, 코스닥 종목만 조사 가능합니다.
-- 주가나 시가총액과 같은 실시간 정보들은 앞으로 연동할 계획입니다. 
+- 주가나 시가총액과 같은 실시간 정보들은 앞으로 연동할 계획입니다.
