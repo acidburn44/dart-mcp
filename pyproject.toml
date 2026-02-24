@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [
-  { name = "Geonhyup Lee", email = "geonhyup.lee@gmail.com" },
+  { name = "Acidburn", email = "acidburn44@gmail.com" },
 ]
 dependencies = [
     "httpx>=0.28.1",
